@@ -11,20 +11,59 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const todo = {
+      id: Math.random(),
+      title,
+      time,
+      done: false,
+    }
+    console.log(todo);
+
+    setTitle("");
+    setTime("");
+
+  };
+
   return (
     <div className="App">
       <div className="todo-header">
         <h1>React ToDo</h1>
       </div>
-      <div className='form-todo'>
-        <p>Formulario</p>
+      <div className="form-todo">
+        <h2>Insira a sua tarefa:</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label htmlFor='title'>O que você vai fazer?</label>
+              <input 
+                type="text"
+                name="title"
+                placeholder="Titulo da tarefa"
+                onChange={(e) => setTitle(e.target.value)}  
+                value={title || ""}                
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label htmlFor='time'>Duração:</label>
+              <input 
+                type="text"
+                name="time"
+                placeholder="Tempo estimado (Em Horas)"
+                onChange={(e) => setTime(e.target.value)}  
+                value={time || ""}
+                required
+              />
+            </div>
+            <input type="submit" value="Criar Tarefa"/>
+          </form>
       </div>
-      <div className='list-todo'>
-        <p>Lista</p>
-      </div>
-
-      
-
+      <div className="list-todo">
+        <h2>Lista de Tarefas:</h2>
+          {todos.length === 0 && <p>Lista Vazia</p>}
+        </div>
     </div>
   );
 }
