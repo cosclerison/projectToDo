@@ -11,7 +11,27 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+
+  useEffect(() => {
+
+    const loadData = async() => {
+  
+      setLoading(true)
+  
+      const res = await fetch(API + "/todos")
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((err) => console.log(err));
+
+        setLoading(false);
+
+        setTodos(res);
+    };
+
+    loadData();
+  }, [])
+
+   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const todo = {
@@ -29,10 +49,16 @@ function App() {
       }
     });
 
+    setTodos((prevState) => [...prevState, todo]);
+
     setTitle("");
     setTime("");
 
   };
+
+  if(loading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div className="App">
@@ -70,6 +96,12 @@ function App() {
       <div className="list-todo">
         <h2>Lista de Tarefas:</h2>
           {todos.length === 0 && <p>Lista Vazia</p>}
+          {todos.map((todo) =>(
+            <div className="todo" key={todo.id}>
+              <p>{todo.title}</p>
+
+            </div>
+          ))}
         </div>
     </div>
   );
