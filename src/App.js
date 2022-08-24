@@ -1,7 +1,7 @@
 import './App.css';
 
 import { useState, useEffect } from "react";
-import { BsTrash, BsBookmarkCheck, BsBookmarkCheckfill } from "react-icons/bs";
+import { BsTrash, BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 
 const API = "http://localhost:5000";
 
@@ -98,8 +98,14 @@ function App() {
           {todos.length === 0 && <p>Lista Vazia</p>}
           {todos.map((todo) =>(
             <div className="todo" key={todo.id}>
-              <p>{todo.title}</p>
-
+            <h3 className={todo.done ? "todo-done" : ""}>{todo.title}</h3>
+              <p>Duração:{todo.time} <strong>Horas</strong></p>
+              <div className="actions">
+                <span>
+                  {!todo.done ? <BsBookmarkCheck/> : <BsBookmarkCheckFill/>}
+                </span>
+                <BsTrash />
+              </div>
             </div>
           ))}
         </div>
